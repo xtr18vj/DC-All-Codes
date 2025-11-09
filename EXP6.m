@@ -1,41 +1,29 @@
-#exp 6 
 clc;
-clear all;
+clear;
 close all;
-choice=input('enter 1:BPSK,2:QPSK,3:MSK,4:16-QAM,5:MPSK;6:MFSK');
-M=16;
-N=4;
-SNR=25;
-if choice<4,
- pe=0.5*erfc(sqrt(SNR));
-end
-if choice==4,
- pe=2*erfc(sqrt(0.4*SNR));
-end
-if choice==5,
- pe=0.5*erfc(sqrt(pi*pi*SNR/16));
-end
-if choice==6,
- N=log2(M);
- pe=erfc(sqrt(N*SNR)*sin(pi/M));
-end
-if choice==7,
- N=log2(M);
- pe=((M-1)/2)*erfc(sqrt(N*SNR/2));
-end
-Error_Probability=pe
 
 
-OUTPUT:
-enter 1:BPSK,2:QPSK,3:MSK,4:16-QAM,5:MPSK;6:MFSK 1
-Error_Probability =7.6873e-13
-enter 1:BPSK,2:QPSK,3:MSK,4:16-QAM,5:MPSK;6:MFSK 2
-Error_Probability = 7.6873e-13
-enter 1:BPSK,2:QPSK,3:MSK,4:16-QAM,5:MPSK;6:MFSK 3
-Error_Probability = 7.6873e-13
-enter 1:BPSK,2:QPSK,3:MSK,4:16-QAM,5:MPSK;6:MFSK 4
-Error_Probability = 1.5488e-05
-enter 1:BPSK,2:QPSK,3:MSK,4:16-QAM,5:MPSK;6:MFSK 5
-Error_Probability = 1.3992e-08
-enter 1:BPSK,2:QPSK,3:MSK,4:16-QAM,5:MPSK;6:MFSK 6
-Error_Probability =1.1430e-22
+Eb = 5e-8;             
+No = 1e-9;            
+M  = 16;               
+k  = log2(M);           
+Es = k * Eb;           
+Eb_No = Eb/No;         
+
+fprintf('Given Eb/No = %.2f (linear)\n', Eb_No);
+
+Ps_PSK = 2 * qfunc( sqrt(2*Es/No) * sin(pi/M) );
+Pb_PSK = Ps_PSK / k;
+
+
+Pb_QAM = (4*(1 - 1/sqrt(M)) / k) * qfunc( sqrt((3*k/(M-1)) * Eb_No) );
+
+
+Ps_FSK = (M - 1) * qfunc( sqrt(Es/No) );
+Pb_FSK = Ps_FSK / k;
+
+
+fprintf('\n===== Probability of Error =====\n');
+fprintf('16-PSK  : Bit Error Probability = %e\n', Pb_PSK);
+fprintf('16-QASK : Bit Error Probability = %e\n', Pb_QAM);
+fprintf('16-FSK  : Bit Error Probability = %e\n', Pb_FSK);
