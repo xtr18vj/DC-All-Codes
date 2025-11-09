@@ -1,0 +1,34 @@
+#exp5
+clc;
+clear all;
+M = 16;                  
+x = 0:M-1;             
+N = 1;                  
+OFF = 0;              
+z = pskmod(x, M, OFF);    % Modulate symbols using MPSK
+% Scatter plot
+figure(1)
+scatterplot(z, N, OFF, 'r+');
+title('16-PSK Constellation');
+grid on;
+
+
+OR
+
+
+
+clc;
+clear all;
+M = 16;                 % MPSK order
+x = 0:M-1;              % Symbol indices
+phase_offset = 0;       % Phase offset in radians
+% Manual PSK modulation (same math as pskmod)
+z = exp(1j * (2*pi*x/M + phase_offset));
+% Scatter plot
+figure(1);
+scatter(real(z), imag(z), 'r+');
+axis equal;
+grid on;
+title('16-PSK Constellation');
+xlabel('In-phase');
+ylabel('Quadrature');
