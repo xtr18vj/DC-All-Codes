@@ -1,11 +1,9 @@
-#exp8
 clc;
 clear all;
 close all;
 i=input('Enter no. of elements=');
 q=input('Enter joint probabilities matrix=');
 sum=0;
-%probability P(x)
 for n=1:i
 w=0;
 for m=1:i
@@ -15,14 +13,12 @@ end
 end
 disp('P(x):');
 disp(p);
-% entropy H(x)
 for n=1:i
 H=sum+(p(n)*log2(1/p(n)));
 sum=H;
 end
 disp('H(x): ');
 disp(H);
-%conditional probability matrix
 1
 for n=1:i
 for m=1:i
@@ -31,7 +27,6 @@ end
 end
 disp('P(Y/X):');
 disp(a);
-% entropy H(Y/X)
 d=0;
 for n=1:i
 for m=1:i
@@ -43,7 +38,6 @@ end
 end
 disp('H(Y/X):');
 disp(H1);
-% probability P(Y)
 for n=1:i
 w=0;
 for m=1:i
@@ -54,7 +48,6 @@ end
 end
 disp('P(Y):');
 disp(s);
-% entropy H(Y)
 k=0;
 for n=1:i
 H2=k+(s(n)*log2(1/s(n)));
@@ -62,7 +55,6 @@ k=H2;
 end
 disp('H(Y): ');
 disp(H2);
-% MI
 m=H2-H1;
 disp('MI-');
 disp(m);
